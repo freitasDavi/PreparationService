@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Orders.Domain.Services;
 
 namespace Orders.Controllers
 {
@@ -7,14 +7,21 @@ namespace Orders.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
+        private readonly IOrderService _service;
+
+        public OrdersController(IOrderService orderService)
+        {
+            _service = orderService;
+        }
         public IActionResult Create()
         {
             return Created();
         }
 
-        public IActionResult GetAll()
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            return Ok();
+            return Ok(await _service.GetAllOrders());
         }
 
         public IActionResult Totalize()
