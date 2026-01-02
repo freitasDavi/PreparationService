@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Orders.Domain.Services;
+using Orders.DTOs;
+using System.Threading.Tasks;
 
 namespace Orders.Controllers
 {
@@ -13,17 +15,23 @@ namespace Orders.Controllers
         {
             _service = orderService;
         }
-        public IActionResult Create()
+
+        [HttpPost]
+        public async Task<IActionResult> Create()
         {
-            return Created();
+            var id = await _service.IniateOrder();
+            var url = new Uri("https://localhost:7051/api/Orders/" + id);
+
+            return Created(url, id);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] ListOrdersRequest request)
         {
-            return Ok(await _service.GetAllOrders());
+            return Ok(await _service.GetAllOrders(request));
         }
 
+        [HttpGet("summarize")]
         public IActionResult Totalize()
         {
             return Ok();

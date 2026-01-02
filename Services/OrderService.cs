@@ -1,6 +1,8 @@
 ﻿using Orders.Domain.Entities;
+using Orders.Domain.Enums;
 using Orders.Domain.Repositories;
 using Orders.Domain.Services;
+using Orders.DTOs;
 
 namespace Orders.Services
 {
@@ -23,9 +25,22 @@ namespace Orders.Services
             return totalAmount;
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrders()
+        public async Task<IEnumerable<Order>> GetAllOrders(ListOrdersRequest request)
         {
-            return await _repository.GetAll();
+            return await _repository.GetAll(request);
+        }
+
+        public async Task<int> IniateOrder()
+        {
+            var order = new Order
+            {
+                CreatedAt = DateTime.UtcNow,
+                Status = EnumOrderStatus.CREATED,
+            };
+
+            await _repository.IniateOrder(order);
+
+            return order.Id;
         }
     }
 }
