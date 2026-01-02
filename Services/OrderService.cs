@@ -2,7 +2,7 @@
 using Orders.Domain.Enums;
 using Orders.Domain.Repositories;
 using Orders.Domain.Services;
-using Orders.DTOs;
+using Orders.DTOs.Request;
 
 namespace Orders.Services
 {

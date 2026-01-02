@@ -1,5 +1,5 @@
 ﻿using Orders.Domain.Entities;
-using Orders.DTOs;
+using Orders.DTOs.Request;
 
 namespace Orders.Domain.Repositories
 {

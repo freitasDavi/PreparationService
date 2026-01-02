@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Orders.Domain.Entities;
 using Orders.Domain.Repositories;
-using Orders.DTOs;
+using Orders.DTOs.Request;
 using Orders.Infrastructure.Database;
 
 namespace Orders.Repositories
@@ -27,7 +27,11 @@ namespace Orders.Repositories
 
         public async Task<Order?> GetById(int id)
         {
-            return await _context.Orders.AsNoTracking().FirstOrDefaultAsync(o => o.Id == id);
+            return await _context
+                .Orders
+                .AsNoTracking()
+                .Include(o => o.Items)
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task IniateOrder(Order order)

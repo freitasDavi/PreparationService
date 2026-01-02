@@ -1,4 +1,4 @@
-﻿namespace Orders.DTOs
+﻿namespace Orders.DTOs.Request
 {
     public class ListOrdersRequest
     {

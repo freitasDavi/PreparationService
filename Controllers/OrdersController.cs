@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Orders.Domain.Services;
-using Orders.DTOs;
-using System.Threading.Tasks;
+using Orders.DTOs.Request;
+using Orders.DTOs.Response;
 
 namespace Orders.Controllers
 {
@@ -31,10 +31,12 @@ namespace Orders.Controllers
             return Ok(await _service.GetAllOrders(request));
         }
 
-        [HttpGet("summarize")]
-        public IActionResult Totalize()
+        [HttpGet("summary/{id}")]
+        public async Task<ActionResult<SummarizeOrderResponse>> Totalize([FromRoute] int id)
         {
-            return Ok();
+            var response = await _service.CalculateTotalAmount(id);
+
+            return Ok(new SummarizeOrderResponse(response));
         }
     }
 }
